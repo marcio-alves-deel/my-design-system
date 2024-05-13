@@ -6524,10 +6524,10 @@ var withEmotionCache = function withEmotionCache(func) {
   });
 };
 
-var ThemeContext = /* #__PURE__ */reactExports.createContext({});
+var ThemeContext$1 = /* #__PURE__ */reactExports.createContext({});
 
 if (process.env.NODE_ENV !== 'production') {
-  ThemeContext.displayName = 'EmotionThemeContext';
+  ThemeContext$1.displayName = 'EmotionThemeContext';
 }
 
 var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
@@ -6564,7 +6564,7 @@ var Emotion = /* #__PURE__ */withEmotionCache(function (props, cache, ref) {
     className = props.className + " ";
   }
 
-  var serialized = serializeStyles(registeredStyles, undefined, reactExports.useContext(ThemeContext));
+  var serialized = serializeStyles(registeredStyles, undefined, reactExports.useContext(ThemeContext$1));
 
   if (process.env.NODE_ENV !== 'production' && serialized.name.indexOf('-') === -1) {
     var labelFromStack = props[labelPropName];
@@ -6743,7 +6743,7 @@ var Global = /* #__PURE__ */withEmotionCache(function (props, cache) {
   }
 
   var styles = props.styles;
-  var serialized = serializeStyles([styles], undefined, reactExports.useContext(ThemeContext));
+  var serialized = serializeStyles([styles], undefined, reactExports.useContext(ThemeContext$1));
   // but it is based on a constant that will never change at runtime
   // it's effectively like having two implementations and switching them out
   // so it's not actually breaking anything
@@ -6942,7 +6942,7 @@ var ClassNames = /* #__PURE__ */withEmotionCache(function (props, cache) {
   var content = {
     css: css,
     cx: cx,
-    theme: reactExports.useContext(ThemeContext)
+    theme: reactExports.useContext(ThemeContext$1)
   };
   var ele = props.children(content);
   hasRendered = true;
@@ -7081,7 +7081,7 @@ var createStyled$2 = function createStyled(tag, options) {
           mergedProps[key] = props[key];
         }
 
-        mergedProps.theme = reactExports.useContext(ThemeContext);
+        mergedProps.theme = reactExports.useContext(ThemeContext$1);
       }
 
       if (typeof props.className === 'string') {
@@ -8420,7 +8420,7 @@ var styledEngine = /*#__PURE__*/Object.freeze({
     __proto__: null,
     GlobalStyles: GlobalStyles,
     StyledEngineProvider: StyledEngineProvider,
-    ThemeContext: ThemeContext,
+    ThemeContext: ThemeContext$1,
     css: css,
     default: styled$1,
     internal_processStyles: internal_processStyles,
@@ -8474,7 +8474,7 @@ var deepmerge = /*#__PURE__*/Object.freeze({
     isPlainObject: isPlainObject
 });
 
-const _excluded$a = ["values", "unit", "step"];
+const _excluded$c = ["values", "unit", "step"];
 const sortBreakpointsValues = values => {
   const breakpointsAsArray = Object.keys(values).map(key => ({
     key,
@@ -8508,7 +8508,7 @@ function createBreakpoints(breakpoints) {
       unit = 'px',
       step = 5
     } = breakpoints,
-    other = _objectWithoutPropertiesLoose(breakpoints, _excluded$a);
+    other = _objectWithoutPropertiesLoose(breakpoints, _excluded$c);
   const sortedValues = sortBreakpointsValues(values);
   const keys = Object.keys(sortedValues);
   function up(key) {
@@ -9613,7 +9613,7 @@ function applyStyles(key, styles) {
   return {};
 }
 
-const _excluded$9 = ["breakpoints", "palette", "spacing", "shape"];
+const _excluded$b = ["breakpoints", "palette", "spacing", "shape"];
 function createTheme$2(options = {}, ...args) {
   const {
       breakpoints: breakpointsInput = {},
@@ -9621,7 +9621,7 @@ function createTheme$2(options = {}, ...args) {
       spacing: spacingInput,
       shape: shapeInput = {}
     } = options,
-    other = _objectWithoutPropertiesLoose(options, _excluded$9);
+    other = _objectWithoutPropertiesLoose(options, _excluded$b);
   const breakpoints = createBreakpoints(breakpointsInput);
   const spacing = createSpacing(spacingInput);
   let muiTheme = deepmerge$1({
@@ -9657,17 +9657,17 @@ var createTheme$1 = /*#__PURE__*/Object.freeze({
 function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
-function useTheme$1(defaultTheme = null) {
-  const contextTheme = reactExports.useContext(ThemeContext);
+function useTheme$2(defaultTheme = null) {
+  const contextTheme = reactExports.useContext(ThemeContext$1);
   return !contextTheme || isObjectEmpty(contextTheme) ? defaultTheme : contextTheme;
 }
 
 const systemDefaultTheme$1 = createTheme$2();
-function useTheme(defaultTheme = systemDefaultTheme$1) {
-  return useTheme$1(defaultTheme);
+function useTheme$1(defaultTheme = systemDefaultTheme$1) {
+  return useTheme$2(defaultTheme);
 }
 
-const _excluded$8 = ["sx"];
+const _excluded$a = ["sx"];
 const splitProps = props => {
   var _props$theme$unstable, _props$theme;
   const result = {
@@ -9688,7 +9688,7 @@ function extendSxProp(props) {
   const {
       sx: inSx
     } = props,
-    other = _objectWithoutPropertiesLoose(props, _excluded$8);
+    other = _objectWithoutPropertiesLoose(props, _excluded$a);
   const {
     systemProps,
     otherProps
@@ -10134,7 +10134,7 @@ function useThemeProps$1({
   defaultTheme,
   themeId
 }) {
-  let theme = useTheme(defaultTheme);
+  let theme = useTheme$1(defaultTheme);
   if (themeId) {
     theme = theme[themeId] || theme;
   }
@@ -10211,6 +10211,26 @@ function elementTypeAcceptingRef(props, propName, componentName, location, propF
   return null;
 }
 var elementTypeAcceptingRef$1 = chainPropTypes(PropTypes.elementType, elementTypeAcceptingRef);
+
+// This module is based on https://github.com/airbnb/prop-types-exact repository.
+// However, in order to reduce the number of dependencies and to remove some extra safe checks
+// the module was forked.
+
+const specialProperty = 'exact-prop: \u200b';
+function exactProp(propTypes) {
+  if (process.env.NODE_ENV === 'production') {
+    return propTypes;
+  }
+  return _extends$1({}, propTypes, {
+    [specialProperty]: props => {
+      const unsupportedProps = Object.keys(props).filter(prop => !propTypes.hasOwnProperty(prop));
+      if (unsupportedProps.length > 0) {
+        return new Error(`The following props are not supported: ${unsupportedProps.map(prop => `\`${prop}\``).join(', ')}. Please remove them.`);
+      }
+      return null;
+    }
+  });
+}
 
 const refType = PropTypes.oneOfType([PropTypes.func, PropTypes.object]);
 
@@ -10502,6 +10522,172 @@ function composeClasses(slots, getUtilityClass, classes = undefined) {
     }, []).join(' ');
   });
   return output;
+}
+
+const ThemeContext = /*#__PURE__*/reactExports.createContext(null);
+if (process.env.NODE_ENV !== 'production') {
+  ThemeContext.displayName = 'ThemeContext';
+}
+
+function useTheme() {
+  const theme = reactExports.useContext(ThemeContext);
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    reactExports.useDebugValue(theme);
+  }
+  return theme;
+}
+
+const hasSymbol = typeof Symbol === 'function' && Symbol.for;
+var nested = hasSymbol ? Symbol.for('mui.nested') : '__THEME_NESTED__';
+
+function mergeOuterLocalTheme(outerTheme, localTheme) {
+  if (typeof localTheme === 'function') {
+    const mergedTheme = localTheme(outerTheme);
+    if (process.env.NODE_ENV !== 'production') {
+      if (!mergedTheme) {
+        console.error(['MUI: You should return an object from your theme function, i.e.', '<ThemeProvider theme={() => ({})} />'].join('\n'));
+      }
+    }
+    return mergedTheme;
+  }
+  return _extends$1({}, outerTheme, localTheme);
+}
+
+/**
+ * This component takes a `theme` prop.
+ * It makes the `theme` available down the React tree thanks to React context.
+ * This component should preferably be used at **the root of your component tree**.
+ */
+function ThemeProvider$3(props) {
+  const {
+    children,
+    theme: localTheme
+  } = props;
+  const outerTheme = useTheme();
+  if (process.env.NODE_ENV !== 'production') {
+    if (outerTheme === null && typeof localTheme === 'function') {
+      console.error(['MUI: You are providing a theme function prop to the ThemeProvider component:', '<ThemeProvider theme={outerTheme => outerTheme} />', '', 'However, no outer theme is present.', 'Make sure a theme is already injected higher in the React tree ' + 'or provide a theme object.'].join('\n'));
+    }
+  }
+  const theme = reactExports.useMemo(() => {
+    const output = outerTheme === null ? localTheme : mergeOuterLocalTheme(outerTheme, localTheme);
+    if (output != null) {
+      output[nested] = outerTheme !== null;
+    }
+    return output;
+  }, [localTheme, outerTheme]);
+  return /*#__PURE__*/jsxRuntimeExports.jsx(ThemeContext.Provider, {
+    value: theme,
+    children: children
+  });
+}
+process.env.NODE_ENV !== "production" ? ThemeProvider$3.propTypes = {
+  /**
+   * Your component tree.
+   */
+  children: PropTypes.node,
+  /**
+   * A theme object. You can provide a function to extend the outer theme.
+   */
+  theme: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired
+} : void 0;
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_ENV !== "production" ? ThemeProvider$3.propTypes = exactProp(ThemeProvider$3.propTypes) : void 0;
+}
+
+const _excluded$9 = ["value"];
+const RtlContext = /*#__PURE__*/reactExports.createContext();
+function RtlProvider(_ref) {
+  let {
+      value
+    } = _ref,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
+  return /*#__PURE__*/jsxRuntimeExports.jsx(RtlContext.Provider, _extends$1({
+    value: value != null ? value : true
+  }, props));
+}
+process.env.NODE_ENV !== "production" ? RtlProvider.propTypes = {
+  children: PropTypes.node,
+  value: PropTypes.bool
+} : void 0;
+
+const EMPTY_THEME = {};
+function useThemeScoping(themeId, upperTheme, localTheme, isPrivate = false) {
+  return reactExports.useMemo(() => {
+    const resolvedTheme = themeId ? upperTheme[themeId] || upperTheme : upperTheme;
+    if (typeof localTheme === 'function') {
+      const mergedTheme = localTheme(resolvedTheme);
+      const result = themeId ? _extends$1({}, upperTheme, {
+        [themeId]: mergedTheme
+      }) : mergedTheme;
+      // must return a function for the private theme to NOT merge with the upper theme.
+      // see the test case "use provided theme from a callback" in ThemeProvider.test.js
+      if (isPrivate) {
+        return () => result;
+      }
+      return result;
+    }
+    return themeId ? _extends$1({}, upperTheme, {
+      [themeId]: localTheme
+    }) : _extends$1({}, upperTheme, localTheme);
+  }, [themeId, upperTheme, localTheme, isPrivate]);
+}
+
+/**
+ * This component makes the `theme` available down the React tree.
+ * It should preferably be used at **the root of your component tree**.
+ *
+ * <ThemeProvider theme={theme}> // existing use case
+ * <ThemeProvider theme={{ id: theme }}> // theme scoping
+ */
+function ThemeProvider$2(props) {
+  const {
+    children,
+    theme: localTheme,
+    themeId
+  } = props;
+  const upperTheme = useTheme$2(EMPTY_THEME);
+  const upperPrivateTheme = useTheme() || EMPTY_THEME;
+  if (process.env.NODE_ENV !== 'production') {
+    if (upperTheme === null && typeof localTheme === 'function' || themeId && upperTheme && !upperTheme[themeId] && typeof localTheme === 'function') {
+      console.error(['MUI: You are providing a theme function prop to the ThemeProvider component:', '<ThemeProvider theme={outerTheme => outerTheme} />', '', 'However, no outer theme is present.', 'Make sure a theme is already injected higher in the React tree ' + 'or provide a theme object.'].join('\n'));
+    }
+  }
+  const engineTheme = useThemeScoping(themeId, upperTheme, localTheme);
+  const privateTheme = useThemeScoping(themeId, upperPrivateTheme, localTheme, true);
+  const rtlValue = engineTheme.direction === 'rtl';
+  return /*#__PURE__*/jsxRuntimeExports.jsx(ThemeProvider$3, {
+    theme: privateTheme,
+    children: /*#__PURE__*/jsxRuntimeExports.jsx(ThemeContext$1.Provider, {
+      value: engineTheme,
+      children: /*#__PURE__*/jsxRuntimeExports.jsx(RtlProvider, {
+        value: rtlValue,
+        children: children
+      })
+    })
+  });
+}
+process.env.NODE_ENV !== "production" ? ThemeProvider$2.propTypes /* remove-proptypes */ = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * Your component tree.
+   */
+  children: PropTypes.node,
+  /**
+   * A theme object. You can provide a function to extend the outer theme.
+   */
+  theme: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  /**
+   * The design system's unique id for getting the corresponded theme when there are multiple design systems.
+   */
+  themeId: PropTypes.string
+} : void 0;
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_ENV !== "production" ? ThemeProvider$2.propTypes = exactProp(ThemeProvider$2.propTypes) : void 0;
 }
 
 function createMixins(breakpoints, mixins) {
@@ -10910,7 +11096,7 @@ function blend(background, overlay, opacity, gamma = 1.0) {
   });
 }
 
-const _excluded$7 = ["mode", "contrastThreshold", "tonalOffset"];
+const _excluded$8 = ["mode", "contrastThreshold", "tonalOffset"];
 const light = {
   // The colors used to style the text.
   text: {
@@ -11079,7 +11265,7 @@ function createPalette(palette) {
       contrastThreshold = 3,
       tonalOffset = 0.2
     } = palette,
-    other = _objectWithoutPropertiesLoose(palette, _excluded$7);
+    other = _objectWithoutPropertiesLoose(palette, _excluded$8);
   const primary = palette.primary || getDefaultPrimary(mode);
   const secondary = palette.secondary || getDefaultSecondary(mode);
   const error = palette.error || getDefaultError(mode);
@@ -11203,7 +11389,7 @@ const theme2 = createTheme({ palette: {
   return paletteOutput;
 }
 
-const _excluded$6 = ["fontFamily", "fontSize", "fontWeightLight", "fontWeightRegular", "fontWeightMedium", "fontWeightBold", "htmlFontSize", "allVariants", "pxToRem"];
+const _excluded$7 = ["fontFamily", "fontSize", "fontWeightLight", "fontWeightRegular", "fontWeightMedium", "fontWeightBold", "htmlFontSize", "allVariants", "pxToRem"];
 function round(value) {
   return Math.round(value * 1e5) / 1e5;
 }
@@ -11234,7 +11420,7 @@ function createTypography(palette, typography) {
       allVariants,
       pxToRem: pxToRem2
     } = _ref,
-    other = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+    other = _objectWithoutPropertiesLoose(_ref, _excluded$7);
   if (process.env.NODE_ENV !== 'production') {
     if (typeof fontSize !== 'number') {
       console.error('MUI: `fontSize` is required to be a number.');
@@ -11301,7 +11487,7 @@ function createShadow(...px) {
 // Values from https://github.com/material-components/material-components-web/blob/be8747f94574669cb5e7add1a7c54fa41a89cec7/packages/mdc-elevation/_variables.scss
 const shadows = ['none', createShadow(0, 2, 1, -1, 0, 1, 1, 0, 0, 1, 3, 0), createShadow(0, 3, 1, -2, 0, 2, 2, 0, 0, 1, 5, 0), createShadow(0, 3, 3, -2, 0, 3, 4, 0, 0, 1, 8, 0), createShadow(0, 2, 4, -1, 0, 4, 5, 0, 0, 1, 10, 0), createShadow(0, 3, 5, -1, 0, 5, 8, 0, 0, 1, 14, 0), createShadow(0, 3, 5, -1, 0, 6, 10, 0, 0, 1, 18, 0), createShadow(0, 4, 5, -2, 0, 7, 10, 1, 0, 2, 16, 1), createShadow(0, 5, 5, -3, 0, 8, 10, 1, 0, 3, 14, 2), createShadow(0, 5, 6, -3, 0, 9, 12, 1, 0, 3, 16, 2), createShadow(0, 6, 6, -3, 0, 10, 14, 1, 0, 4, 18, 3), createShadow(0, 6, 7, -4, 0, 11, 15, 1, 0, 4, 20, 3), createShadow(0, 7, 8, -4, 0, 12, 17, 2, 0, 5, 22, 4), createShadow(0, 7, 8, -4, 0, 13, 19, 2, 0, 5, 24, 4), createShadow(0, 7, 9, -4, 0, 14, 21, 2, 0, 5, 26, 4), createShadow(0, 8, 9, -5, 0, 15, 22, 2, 0, 6, 28, 5), createShadow(0, 8, 10, -5, 0, 16, 24, 2, 0, 6, 30, 5), createShadow(0, 8, 11, -5, 0, 17, 26, 2, 0, 6, 32, 5), createShadow(0, 9, 11, -5, 0, 18, 28, 2, 0, 7, 34, 6), createShadow(0, 9, 12, -6, 0, 19, 29, 2, 0, 7, 36, 6), createShadow(0, 10, 13, -6, 0, 20, 31, 3, 0, 8, 38, 7), createShadow(0, 10, 13, -6, 0, 21, 33, 3, 0, 8, 40, 7), createShadow(0, 10, 14, -6, 0, 22, 35, 3, 0, 8, 42, 7), createShadow(0, 11, 14, -7, 0, 23, 36, 3, 0, 9, 44, 8), createShadow(0, 11, 15, -7, 0, 24, 38, 3, 0, 9, 46, 8)];
 
-const _excluded$5 = ["duration", "easing", "delay"];
+const _excluded$6 = ["duration", "easing", "delay"];
 // Follow https://material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves
 // to learn the context in which each easing should be used.
 const easing = {
@@ -11352,7 +11538,7 @@ function createTransitions(inputTransitions) {
         easing: easingOption = mergedEasing.easeInOut,
         delay = 0
       } = options,
-      other = _objectWithoutPropertiesLoose(options, _excluded$5);
+      other = _objectWithoutPropertiesLoose(options, _excluded$6);
     if (process.env.NODE_ENV !== 'production') {
       const isString = value => typeof value === 'string';
       // IE11 support, replace with Number.isNaN
@@ -11401,7 +11587,7 @@ const zIndex = {
   tooltip: 1500
 };
 
-const _excluded$4 = ["breakpoints", "mixins", "spacing", "palette", "transitions", "typography", "shape"];
+const _excluded$5 = ["breakpoints", "mixins", "spacing", "palette", "transitions", "typography", "shape"];
 function createTheme(options = {}, ...args) {
   const {
       mixins: mixinsInput = {},
@@ -11409,7 +11595,7 @@ function createTheme(options = {}, ...args) {
       transitions: transitionsInput = {},
       typography: typographyInput = {}
     } = options,
-    other = _objectWithoutPropertiesLoose(options, _excluded$4);
+    other = _objectWithoutPropertiesLoose(options, _excluded$5);
   if (options.vars) {
     throw new Error(process.env.NODE_ENV !== "production" ? `MUI: \`vars\` is a private field used for CSS variables support.
 Please use another name.` : formatMuiErrorMessage$1(18));
@@ -11467,7 +11653,7 @@ Please use another name.` : formatMuiErrorMessage$1(18));
   return muiTheme;
 }
 
-const defaultTheme = createTheme();
+const defaultTheme$1 = createTheme();
 
 function useThemeProps({
   props,
@@ -11476,7 +11662,7 @@ function useThemeProps({
   return useThemeProps$1({
     props,
     name,
-    defaultTheme,
+    defaultTheme: defaultTheme$1,
     themeId: THEME_ID
   });
 }
@@ -11561,7 +11747,7 @@ var _capitalize = _interopRequireDefault(require$$5);
 var _getDisplayName = _interopRequireDefault(require$$6);
 var _createTheme = _interopRequireDefault(require$$7);
 var _styleFunctionSx = _interopRequireDefault(require$$8);
-const _excluded$3 = ["ownerState"],
+const _excluded$4 = ["ownerState"],
   _excluded2 = ["variants"],
   _excluded3 = ["name", "slot", "skipVariantsResolver", "skipSx", "overridesResolver"];
 /* eslint-disable no-underscore-dangle */
@@ -11608,7 +11794,7 @@ function processStyleArg(callableStyle, _ref) {
   let {
       ownerState
     } = _ref,
-    props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded$3);
+    props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded$4);
   const resolvedStylesArg = typeof callableStyle === 'function' ? callableStyle((0, _extends2.default)({
     ownerState
   }, props)) : callableStyle;
@@ -11805,9 +11991,32 @@ const rootShouldForwardProp = prop => slotShouldForwardProp(prop) && prop !== 'c
 
 const styled = _default({
   themeId: THEME_ID,
-  defaultTheme,
+  defaultTheme: defaultTheme$1,
   rootShouldForwardProp
 });
+
+const _excluded$3 = ["theme"];
+function ThemeProvider$1(_ref) {
+  let {
+      theme: themeInput
+    } = _ref,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
+  const scopedTheme = themeInput[THEME_ID];
+  return /*#__PURE__*/jsxRuntimeExports.jsx(ThemeProvider$2, _extends$1({}, props, {
+    themeId: scopedTheme ? THEME_ID : undefined,
+    theme: scopedTheme || themeInput
+  }));
+}
+process.env.NODE_ENV !== "production" ? ThemeProvider$1.propTypes = {
+  /**
+   * Your component tree.
+   */
+  children: PropTypes.node,
+  /**
+   * A theme object. You can provide a function to extend the outer theme.
+   */
+  theme: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired
+} : void 0;
 
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
@@ -13399,5 +13608,135 @@ var Button = function (_a) {
     return jsxRuntimeExports.jsx(Button$1, __assign({}, props, { children: children }));
 };
 
-export { Button };
+var breakpoints = {
+    values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+    },
+};
+
+var palette = {
+    text: {
+        primary: "#01090f",
+        secondary: "#5c5c5c",
+        disabled: "#7c8286",
+    },
+    primary: {
+        main: "#3D8EC9", // Cor principal
+        light: "#62B2EB", // Variante clara
+        dark: "#2A6BA1", // Variante escura
+        contrastText: "#ffffff", // Texto em contraste
+    },
+    secondary: {
+        main: "#EFEFEF", // Cor principal
+        light: "#FFFFFF", // Variante clara
+        dark: "#C0C0C0", // Variante escura
+        contrastText: "#2c2c2c", // Texto em contraste
+    },
+    error: {
+        main: "#CE0000", // Cor principal
+        light: "#FF3333", // Variante clara
+        dark: "#990000", // Variante escura
+        contrastText: "#ffffff", // Texto em contraste
+    },
+    warning: {
+        main: "#F9A13A", // Cor principal
+        light: "#FFB56B", // Variante clara
+        dark: "#CC7D00", // Variante escura
+        contrastText: "#ffffff", // Texto em contraste
+    },
+    success: {
+        main: "#34B831", // Cor principal
+        light: "#66DC66", // Variante clara
+        dark: "#007D00", // Variante escura
+        contrastText: "#ffffff", // Texto em contraste
+    },
+    info: {
+        main: "#62B2EB", // Cor principal
+        light: "#8CD3FF", // Variante clara
+        dark: "#3A90D6", // Variante escura
+        contrastText: "#ffffff", // Texto em contraste
+    },
+    divider: "#E0E0E0", // Cor do divisor
+};
+
+var typography = {
+    fontFamily: ["Helvetica", "sans-serif"].join(","),
+    h1: {
+        fontSize: 96,
+        letterSpacing: "-1.5px",
+        fontWeight: "600",
+    },
+    h2: {
+        fontSize: 60,
+        letterSpacing: "-0.5px",
+        fontWeight: "400",
+    },
+    h3: {
+        fontSize: 48,
+        letterSpacing: "0px",
+        fontWeight: "600",
+    },
+    h4: {
+        fontSize: 34,
+        letterSpacing: "0.25px",
+        fontWeight: "600",
+    },
+    h5: {
+        fontSize: 24,
+        letterSpacing: "0px",
+    },
+    h6: {
+        fontSize: 20,
+        letterSpacing: "0.15px",
+        fontWeight: "600",
+    },
+    subtitle1: {
+        fontSize: 16,
+        letterSpacing: "0.15px",
+        fontWeight: "400",
+    },
+    subtitle2: {
+        fontSize: 14,
+        letterSpacing: "0.1px",
+        fontWeight: "600",
+    },
+    body1: {
+        fontSize: 16,
+        letterSpacing: "0.5px",
+    },
+    body2: {
+        fontSize: 14,
+        letterSpacing: "0.25px",
+    },
+    button: {
+        fontSize: 14,
+        letterSpacing: "1.25px",
+        textTransform: "uppercase",
+    },
+    caption: {
+        fontSize: 12,
+        letterSpacing: "0.4px",
+    },
+};
+
+var theme = {
+    breakpoints: breakpoints,
+    shape: {
+        borderRadius: 0,
+    },
+    palette: palette,
+    typography: typography,
+};
+var defaultTheme = createTheme(theme);
+
+var ThemeProvider = function (_a) {
+    var children = _a.children;
+    return jsxRuntimeExports.jsx(ThemeProvider$1, { theme: defaultTheme, children: children });
+};
+
+export { Button, ThemeProvider as DefaultThemeProvider };
 //# sourceMappingURL=index.js.map
