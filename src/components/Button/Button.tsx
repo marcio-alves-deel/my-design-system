@@ -6,8 +6,16 @@ import { FunctionComponent } from "react";
 
 interface ButtonProps extends ButtonBaseProps {}
 
-const Button: FunctionComponent<ButtonProps> = ({ children, ...props }) => {
-  return <ButtonBase {...props}>{children}</ButtonBase>;
+const Button: FunctionComponent<ButtonProps> = ({
+  children,
+  variant = "contained",
+  ...props
+}) => {
+  return (
+    <ButtonBase variant={variant} {...props}>
+      {children}
+    </ButtonBase>
+  );
 };
 
 export default Button;
