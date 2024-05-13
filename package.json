@@ -1,7 +1,7 @@
 {
   "name": "my-design-system",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_41744842acf0913"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -35,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "chromatic": "^11.3.2",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
@@ -42,5 +44,25 @@
     "storybook": "^8.0.10",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcio-alves-deel/my-design-system.git"
+  },
+  "keywords": [
+    "DesignSystem",
+    "UFPB",
+    "TCC",
+    "Tempalte"
+  ],
+  "author": {
+    "name": "Marcio Alves"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcio-alves-deel/my-design-system/issues"
+  },
+  "homepage": "https://github.com/marcio-alves-deel/my-design-system#readme"
 }
