@@ -1,3 +1,5 @@
+'use strict';
+
 function _mergeNamespaces(n, m) {
     m.forEach(function (e) {
         e && typeof e !== 'string' && !Array.isArray(e) && Object.keys(e).forEach(function (k) {
@@ -13879,5 +13881,6 @@ var ThemeProvider = function (_a) {
     return (jsxRuntimeExports.jsxs(ThemeProvider$1, { theme: defaultTheme, children: [jsxRuntimeExports.jsx(CssBaseline, {}), children] }));
 };
 
-export { Button, ThemeProvider as DefaultThemeProvider };
+exports.Button = Button;
+exports.DefaultThemeProvider = ThemeProvider;
 //# sourceMappingURL=index.js.map
