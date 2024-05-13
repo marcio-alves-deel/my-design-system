@@ -50,9 +50,6 @@ node_modules/
 .env
 .env.test
 
-# Dist will be built in CI
-/dist
-
 # VS Code history.
 .history
 
