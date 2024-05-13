@@ -1,0 +1,36 @@
+root/
+├── public/
+│   └── index.html
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── Button/
+│   │   │   ├── Button.tsx
+│   │   │   ├── Button.stories.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── providers/
+│   │   ├── ThemeProvider
+│   │   │   ├── index.ts
+│   │   │   └── ThemeProvider.tsx
+│   ├── themes/
+│   │   ├── breakpoints.ts
+│   │   ├── defaultTheme.ts
+│   │   ├── index.ts
+│   │   ├── palette.ts
+│   │   └── typography.ts
+│   ├── utils/
+│   │   ├── countries.ts
+│   │   ├── gender.ts
+│   │   ├── index.ts
+│   │   └── people.ts
+│   ├── index.tsx
+│   └── vite-env.d.ts
+├── .gitignore
+├── index.html
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+
+
