@@ -1,3 +1,18 @@
-export { default as countries } from "./countries.json";
-export { default as gender } from "./gender.json";
-export { default as people } from "./people.json";
+declare const _default: {
+    countries: {
+        gentilico: string;
+        nome_pais: string;
+        nome_pais_int: string;
+        sigla: string;
+    }[];
+    gender: {
+        label: string;
+        value: string;
+    }[];
+    people: {
+        id: string;
+        name: string;
+        email: string;
+    }[];
+};
+export default _default;
