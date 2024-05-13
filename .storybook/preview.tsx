@@ -6,13 +6,12 @@ import {
   Description,
   Primary,
   Controls,
-  Stories,
 } from "@storybook/blocks";
 import React from "react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import { defaultTheme } from "../src/themes/defaultTheme";
 
 import { withThemeFromJSXProvider } from "@storybook/addon-themes";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 const preview: Preview = {
   decorators: [
@@ -34,14 +33,13 @@ const preview: Preview = {
     },
     docs: {
       page: () => (
-        <ThemeProvider theme={defaultTheme}>
-          <CssBaseline />
+        <>
           <Title />
           <Subtitle />
           <Description />
           <Primary />
           <Controls />
-        </ThemeProvider>
+        </>
       ),
     },
   },

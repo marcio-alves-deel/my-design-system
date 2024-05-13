@@ -8369,7 +8369,7 @@ process.env.NODE_ENV !== "production" ? StyledEngineProvider.propTypes = {
 function isEmpty$1(obj) {
   return obj === undefined || obj === null || Object.keys(obj).length === 0;
 }
-function GlobalStyles(props) {
+function GlobalStyles$2(props) {
   const {
     styles,
     defaultTheme = {}
@@ -8379,7 +8379,7 @@ function GlobalStyles(props) {
     styles: globalStyles
   });
 }
-process.env.NODE_ENV !== "production" ? GlobalStyles.propTypes = {
+process.env.NODE_ENV !== "production" ? GlobalStyles$2.propTypes = {
   defaultTheme: PropTypes.object,
   styles: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object, PropTypes.func])
 } : void 0;
@@ -8418,7 +8418,7 @@ const internal_processStyles = (tag, processor) => {
 
 var styledEngine = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    GlobalStyles: GlobalStyles,
+    GlobalStyles: GlobalStyles$2,
     StyledEngineProvider: StyledEngineProvider,
     ThemeContext: ThemeContext$1,
     css: css,
@@ -9666,6 +9666,36 @@ const systemDefaultTheme$1 = createTheme$2();
 function useTheme$1(defaultTheme = systemDefaultTheme$1) {
   return useTheme$2(defaultTheme);
 }
+
+function GlobalStyles$1({
+  styles,
+  themeId,
+  defaultTheme = {}
+}) {
+  const upperTheme = useTheme$1(defaultTheme);
+  const globalStyles = typeof styles === 'function' ? styles(themeId ? upperTheme[themeId] || upperTheme : upperTheme) : styles;
+  return /*#__PURE__*/jsxRuntimeExports.jsx(GlobalStyles$2, {
+    styles: globalStyles
+  });
+}
+process.env.NODE_ENV !== "production" ? GlobalStyles$1.propTypes /* remove-proptypes */ = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * @ignore
+   */
+  defaultTheme: PropTypes.object,
+  /**
+   * @ignore
+   */
+  styles: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([PropTypes.array, PropTypes.func, PropTypes.number, PropTypes.object, PropTypes.string, PropTypes.bool]),
+  /**
+   * @ignore
+   */
+  themeId: PropTypes.string
+} : void 0;
 
 const _excluded$a = ["sx"];
 const splitProps = props => {
@@ -13222,6 +13252,23 @@ process.env.NODE_ENV !== "production" ? ButtonBase.propTypes /* remove-proptypes
   type: PropTypes.oneOfType([PropTypes.oneOf(['button', 'reset', 'submit']), PropTypes.string])
 } : void 0;
 
+function GlobalStyles(props) {
+  return /*#__PURE__*/jsxRuntimeExports.jsx(GlobalStyles$1, _extends$1({}, props, {
+    defaultTheme: defaultTheme$1,
+    themeId: THEME_ID
+  }));
+}
+process.env.NODE_ENV !== "production" ? GlobalStyles.propTypes /* remove-proptypes */ = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * The styles you want to apply globally.
+   */
+  styles: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([PropTypes.array, PropTypes.func, PropTypes.number, PropTypes.object, PropTypes.string, PropTypes.bool])
+} : void 0;
+
 function getButtonUtilityClass(slot) {
   return generateUtilityClass('MuiButton', slot);
 }
@@ -13603,6 +13650,100 @@ process.env.NODE_ENV !== "production" ? Button$1.propTypes /* remove-proptypes *
   variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([PropTypes.oneOf(['contained', 'outlined', 'text']), PropTypes.string])
 } : void 0;
 
+const html = (theme, enableColorScheme) => _extends$1({
+  WebkitFontSmoothing: 'antialiased',
+  // Antialiasing.
+  MozOsxFontSmoothing: 'grayscale',
+  // Antialiasing.
+  // Change from `box-sizing: content-box` so that `width`
+  // is not affected by `padding` or `border`.
+  boxSizing: 'border-box',
+  // Fix font resize problem in iOS
+  WebkitTextSizeAdjust: '100%'
+}, enableColorScheme && !theme.vars && {
+  colorScheme: theme.palette.mode
+});
+const body = theme => _extends$1({
+  color: (theme.vars || theme).palette.text.primary
+}, theme.typography.body1, {
+  backgroundColor: (theme.vars || theme).palette.background.default,
+  '@media print': {
+    // Save printer ink.
+    backgroundColor: (theme.vars || theme).palette.common.white
+  }
+});
+const styles = (theme, enableColorScheme = false) => {
+  var _theme$components;
+  const colorSchemeStyles = {};
+  if (enableColorScheme && theme.colorSchemes) {
+    Object.entries(theme.colorSchemes).forEach(([key, scheme]) => {
+      var _scheme$palette;
+      colorSchemeStyles[theme.getColorSchemeSelector(key).replace(/\s*&/, '')] = {
+        colorScheme: (_scheme$palette = scheme.palette) == null ? void 0 : _scheme$palette.mode
+      };
+    });
+  }
+  let defaultStyles = _extends$1({
+    html: html(theme, enableColorScheme),
+    '*, *::before, *::after': {
+      boxSizing: 'inherit'
+    },
+    'strong, b': {
+      fontWeight: theme.typography.fontWeightBold
+    },
+    body: _extends$1({
+      margin: 0
+    }, body(theme), {
+      // Add support for document.body.requestFullScreen().
+      // Other elements, if background transparent, are not supported.
+      '&::backdrop': {
+        backgroundColor: (theme.vars || theme).palette.background.default
+      }
+    })
+  }, colorSchemeStyles);
+  const themeOverrides = (_theme$components = theme.components) == null || (_theme$components = _theme$components.MuiCssBaseline) == null ? void 0 : _theme$components.styleOverrides;
+  if (themeOverrides) {
+    defaultStyles = [defaultStyles, themeOverrides];
+  }
+  return defaultStyles;
+};
+
+/**
+ * Kickstart an elegant, consistent, and simple baseline to build upon.
+ */
+function CssBaseline(inProps) {
+  const props = useThemeProps({
+    props: inProps,
+    name: 'MuiCssBaseline'
+  });
+  const {
+    children,
+    enableColorScheme = false
+  } = props;
+  return /*#__PURE__*/jsxRuntimeExports.jsxs(reactExports.Fragment, {
+    children: [/*#__PURE__*/jsxRuntimeExports.jsx(GlobalStyles, {
+      styles: theme => styles(theme, enableColorScheme)
+    }), children]
+  });
+}
+process.env.NODE_ENV !== "production" ? CssBaseline.propTypes /* remove-proptypes */ = {
+  // ┌────────────────────────────── Warning ──────────────────────────────┐
+  // │ These PropTypes are generated from the TypeScript type definitions. │
+  // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
+  // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * You can wrap a node.
+   */
+  children: PropTypes.node,
+  /**
+   * Enable `color-scheme` CSS property to use `theme.palette.mode`.
+   * For more details, check out https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+   * For browser support, check out https://caniuse.com/?search=color-scheme
+   * @default false
+   */
+  enableColorScheme: PropTypes.bool
+} : void 0;
+
 var Button = function (_a) {
     var children = _a.children, props = __rest(_a, ["children"]);
     return jsxRuntimeExports.jsx(Button$1, __assign({}, props, { children: children }));
@@ -13735,7 +13876,7 @@ var defaultTheme = createTheme(theme);
 
 var ThemeProvider = function (_a) {
     var children = _a.children;
-    return jsxRuntimeExports.jsx(ThemeProvider$1, { theme: defaultTheme, children: children });
+    return (jsxRuntimeExports.jsxs(ThemeProvider$1, { theme: defaultTheme, children: [jsxRuntimeExports.jsx(CssBaseline, {}), children] }));
 };
 
 export { Button, ThemeProvider as DefaultThemeProvider };

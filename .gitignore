@@ -53,9 +53,6 @@ node_modules/
 # VS Code history.
 .history
 
-# Build
-/storybook-static
-
 # WebStorm IDE config
 .idea/*
 
@@ -64,5 +61,3 @@ node_modules/
 
 # Snyk
 .dccache
-
-src/assets/icon-font
